@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FareOrbit — flight search, in development</title>
+<meta name="description" content="FareOrbit is a flight search and fare-alert app in development. It is not yet released, and it currently shows demo data only.">
+<meta name="color-scheme" content="light dark">
+
+<meta property="og:title" content="FareOrbit">
+<meta property="og:description" content="A flight search and fare-alert app in development. Not yet released.">
+<meta property="og:type" content="website">
+
+<style>
+  :root {
+    --navy-900:#071526; --navy-800:#0B1F3A; --navy-700:#12304F; --navy-600:#1C456E;
+    --navy-100:#E3EBF4;
+    --teal-600:#127F74; --teal-400:#2BB3A3; --teal-50:#E6F6F4;
+    --n-0:#FFFFFF; --n-50:#F6F8FA; --n-100:#EDF1F5; --n-300:#C6CFD8;
+    --n-600:#5A6673; --n-900:#151B22;
+    --amber-600:#8A5A00; --amber-100:#FFF1D6;
+
+    --bg: var(--n-50);
+    --surface: var(--n-0);
+    --text: var(--n-900);
+    --muted: var(--n-600);
+    --line: var(--n-300);
+    --accent: var(--teal-600);
+    --accent-soft: var(--teal-50);
+    --notice-bg: var(--amber-100);
+    --notice-fg: var(--amber-600);
+    --radius: 14px;
+    --maxw: 760px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: var(--navy-900);
+      --surface: var(--navy-800);
+      --text: var(--n-100);
+      --muted: #9FB3C8;
+      --line: var(--navy-600);
+      --accent: var(--teal-400);
+      --accent-soft: var(--navy-700);
+      --notice-bg: #3A2A05;
+      --notice-fg: #FFD88A;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 16px; }
+
+  header {
+    background: var(--navy-800);
+    color: var(--n-0);
+    padding: 56px 0 48px;
+  }
+  @media (prefers-color-scheme: dark) {
+    header { background: var(--navy-900); border-bottom: 1px solid var(--line); }
+  }
+
+  .mark { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+  .mark svg { display: block; }
+  .mark span { font-weight: 600; letter-spacing: .2px; }
+
+  h1 { font-size: clamp(32px, 7vw, 46px); line-height: 1.1; margin: 0 0 12px; font-weight: 700; }
+  .tagline { color: var(--teal-400); font-size: clamp(17px, 3.5vw, 20px); margin: 0 0 24px; }
+  .lede { color: #C9D6E4; font-size: 17px; margin: 0; max-width: 54ch; }
+
+  .status-pill {
+    display: inline-block; margin-top: 28px;
+    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.22);
+    color: #fff; border-radius: 999px; padding: 7px 15px;
+    font-size: 14px; font-weight: 600;
+  }
+
+  main { padding: 8px 0 24px; }
+
+  section { padding: 40px 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: 0; }
+
+  h2 { font-size: 21px; margin: 0 0 8px; font-weight: 650; }
+  h3 { font-size: 16px; margin: 0 0 4px; font-weight: 650; }
+  p  { margin: 0 0 14px; }
+  p:last-child { margin-bottom: 0; }
+  .muted { color: var(--muted); }
+
+  .notice {
+    background: var(--notice-bg); color: var(--notice-fg);
+    border-radius: var(--radius); padding: 18px 20px; margin: 32px 0 0;
+  }
+  .notice h2 { font-size: 17px; margin-bottom: 6px; color: inherit; }
+  .notice p { font-size: 15px; }
+
+  .grid { display: grid; gap: 14px; margin-top: 22px; }
+  @media (min-width: 620px) { .grid { grid-template-columns: 1fr 1fr; } }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 18px 20px;
+  }
+  .card p { font-size: 15px; color: var(--muted); margin: 0; }
+
+  ul.plain { list-style: none; padding: 0; margin: 18px 0 0; }
+  ul.plain li {
+    display: flex; gap: 12px; align-items: baseline;
+    padding: 11px 0; border-top: 1px solid var(--line);
+  }
+  ul.plain li:first-child { border-top: 0; }
+  .state {
+    flex: 0 0 auto; font-size: 12px; font-weight: 700; letter-spacing: .4px;
+    border-radius: 6px; padding: 3px 8px; white-space: nowrap;
+  }
+  .yes { background: var(--accent-soft); color: var(--accent); }
+  .no  { background: var(--n-100); color: var(--muted); }
+  @media (prefers-color-scheme: dark) { .no { background: var(--navy-700); } }
+
+  footer {
+    padding: 36px 0 56px; color: var(--muted); font-size: 14px;
+  }
+  footer p { margin: 0 0 10px; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="mark">
+      <!-- An orbit ring with a mark on it. Original artwork, matching the app icon. -->
+      <svg width="30" height="30" viewBox="0 0 108 108" aria-hidden="true" focusable="false">
+        <path d="M54,30 m-20,0 a20,12 -25 1,0 40,0 a20,12 -25 1,0 -40,0"
+              stroke="#2BB3A3" stroke-width="5" fill="none"/>
+        <path d="M38,74 L54,42 L70,74 L54,66 Z" fill="#FFFFFF"/>
+      </svg>
+      <span>FareOrbit</span>
+    </div>
+
+    <h1>Flight search that admits what it doesn&rsquo;t know.</h1>
+    <p class="tagline">Every route. A better fare.</p>
+    <p class="lede">
+      FareOrbit compares flight fares, tracks prices you care about, and hands you
+      to the provider to book. It is being built in the open by one person.
+    </p>
+    <p class="status-pill">In development &middot; not yet released</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="notice">
+    <h2>Read this before anything else</h2>
+    <p>
+      FareOrbit is not finished and you cannot use it yet. There is no public app,
+      nothing to download, and no booking of any kind. Every fare in the current
+      build is synthetic test data generated on a developer&rsquo;s machine &mdash; it is
+      labelled as such inside the app, and it bears no relation to any airline&rsquo;s
+      real prices.
+    </p>
+  </div>
+
+  <section>
+    <h2>What it is meant to do</h2>
+    <p>
+      Search flights across the providers it can reach, compare what comes back,
+      and let you track a route so you hear about it when the price moves.
+      When you choose a fare, FareOrbit hands you to the provider that sells it.
+    </p>
+    <p class="muted">
+      FareOrbit does not sell tickets, take payments, or hold your card details.
+      It is a comparison tool, not a travel agency.
+    </p>
+  </section>
+
+  <section>
+    <h2>Where it actually is today</h2>
+    <p class="muted">An honest status board rather than a roadmap.</p>
+    <ul class="plain">
+      <li><span class="state yes">WORKING</span>
+        <span><strong>Search, filtering and fare detail.</strong> The backend and the
+        Android app are built and tested, and the search journey runs end to end.</span></li>
+      <li><span class="state yes">WORKING</span>
+        <span><strong>Saved searches and price alerts.</strong> Including the dull but
+        important parts: a failed price check is never recorded as a price change.</span></li>
+      <li><span class="state no">DEMO ONLY</span>
+        <span><strong>The fares themselves.</strong> No live flight provider is connected
+        yet, so every price you would see today is synthetic.</span></li>
+      <li><span class="state no">NOT STARTED</span>
+        <span><strong>Released to anyone.</strong> The app is not on Google Play and has
+        no public build.</span></li>
+      <li><span class="state no">NOT STARTED</span>
+        <span><strong>Explore by budget.</strong> Deliberately deferred until the core
+        search is genuinely finished.</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>The rules it is built to</h2>
+    <p class="muted">
+      These are enforced in code and pinned by tests, not aspirations on a page.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Unknown stays unknown</h3>
+        <p>If a provider doesn&rsquo;t say whether a bag is included, FareOrbit says
+        &ldquo;Unknown&rdquo;. It never rounds a gap up into a benefit.</p>
+      </div>
+      <div class="card">
+        <h3>It says what it searched</h3>
+        <p>Every result states which providers answered and which failed. No claim
+        to search every airline, because that would not be true.</p>
+      </div>
+      <div class="card">
+        <h3>A price has an age</h3>
+        <p>Where a fare is cached rather than live, it says so and says how old it
+        might be &mdash; not when the server last made a call.</p>
+      </div>
+      <div class="card">
+        <h3>No invented links</h3>
+        <p>If a provider gives no link to a specific fare, FareOrbit says so. It
+        will not quietly send you to an airline&rsquo;s homepage instead.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Why be this blunt?</h2>
+    <p>
+      Fare comparison is a field with a lot of confident-sounding claims in it:
+      cheapest anywhere, every airline, prices updated live. Most of them are
+      difficult to substantiate, and a traveller has no way to check.
+    </p>
+    <p>
+      FareOrbit is being built the other way round &mdash; state the coverage, show the
+      age of the data, and admit the gaps. That is less exciting on a landing page.
+      It is considerably more useful when you are about to spend several hundred
+      pounds on a flight.
+    </p>
+  </section>
+
+  <section>
+    <h2>Follow along</h2>
+    <p>
+      There is no mailing list and no launch date, because neither would be
+      honest yet.
+    </p>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p>
+    &ldquo;FareOrbit&rdquo; is a working project name. No trademark search, domain
+    registration or app-store listing has been completed, and the name may change.
+  </p>
+  <p>
+    When FareOrbit does link to a booking provider, it may earn a commission on a
+    completed booking. It will say so where it happens, and a commission will never
+    change the order fares are shown in.
+  </p>
+  <p>&copy; 2026 FareOrbit</p>
+</footer>
+
+</body>
+</html>

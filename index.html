@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FareOrbit — flight search, in development</title>
-<meta name="description" content="FareOrbit is a flight search and fare-alert app in development. It is not yet released, and it currently shows demo data only.">
+<meta name="description" content="FareOrbit is a flight search and fare-alert app in development. It is not yet released. Its fares are real but come from one provider's cache, and it says how old every price is.">
 <meta name="color-scheme" content="light dark">
 
 <meta property="og:title" content="FareOrbit">
@@ -147,10 +147,11 @@
     </div>
 
     <h1>Flight search that admits what it doesn&rsquo;t know.</h1>
-    <p class="tagline">Every route. A better fare.</p>
+    <p class="tagline">Every price has an age.</p>
     <p class="lede">
-      FareOrbit compares flight fares, tracks prices you care about, and hands you
-      to the provider to book. It is being built in the open by one person.
+      FareOrbit searches the flight data it can legitimately reach, says how old
+      every price is and what it did not search, and hands you to the provider to
+      book. It is being built in the open by one person.
     </p>
     <p class="status-pill">In development &middot; not yet released</p>
   </div>
@@ -162,10 +163,14 @@
     <h2>Read this before anything else</h2>
     <p>
       FareOrbit is not finished and you cannot use it yet. There is no public app,
-      nothing to download, and no booking of any kind. Every fare in the current
-      build is synthetic test data generated on a developer&rsquo;s machine &mdash; it is
-      labelled as such inside the app, and it bears no relation to any airline&rsquo;s
-      real prices.
+      nothing to download, and no booking of any kind.
+    </p>
+    <p>
+      The fares are now real, but thin. They come from one provider&rsquo;s cache, which
+      returns <strong>a single price per route and date</strong> &mdash; and nothing at all
+      for many routes &mdash; and that price may be up to <strong>seven days old</strong>.
+      FareOrbit says so on every fare. It cannot compare the market today, and it does
+      not claim to.
     </p>
   </div>
 
@@ -175,6 +180,7 @@
       Search flights across the providers it can reach, compare what comes back,
       and let you track a route so you hear about it when the price moves.
       When you choose a fare, FareOrbit hands you to the provider that sells it.
+      Comparison is the goal; one provider is where it currently starts.
     </p>
     <p class="muted">
       FareOrbit does not sell tickets, take payments, or hold your card details.
@@ -192,9 +198,13 @@
       <li><span class="state yes">WORKING</span>
         <span><strong>Saved searches and price alerts.</strong> Including the dull but
         important parts: a failed price check is never recorded as a price change.</span></li>
-      <li><span class="state no">DEMO ONLY</span>
-        <span><strong>The fares themselves.</strong> No live flight provider is connected
-        yet, so every price you would see today is synthetic.</span></li>
+      <li><span class="state yes">WORKING</span>
+        <span><strong>Real fares, from one provider.</strong> Live since 18 October 2026,
+        via Aviasales&rsquo; cached price data.</span></li>
+      <li><span class="state no">THIN</span>
+        <span><strong>Comparing them.</strong> That provider returns one price per route
+        and date, and none at all for many routes, so there is usually nothing to compare
+        it against. A second source is the next thing that changes this.</span></li>
       <li><span class="state no">NOT STARTED</span>
         <span><strong>Released to anyone.</strong> The app is not on Google Play and has
         no public build.</span></li>
